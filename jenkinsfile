@@ -7,6 +7,10 @@ pipeline {
         git 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git'
       }
     }
-    
+    stage('build') {
+      steps {
+      sh 'mvn --version'
+      }
+    }    
   }
 }
