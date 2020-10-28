@@ -1,0 +1,16 @@
+pipeline {
+  agent 
+  stages {
+    stage('Static Code Analysis') { // Get code
+      steps {
+        // get code from our Git repository
+        git 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git'
+      }
+    }
+    stage('build') {
+      steps {
+      sh 'mvn --version'
+      }
+    }    
+  }
+}
