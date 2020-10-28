@@ -1,13 +1,13 @@
 pipeline {
   agent { label 'worker_node1' }
   stages {
-    stage('Source') { // Get code
+    stage('Static Code Analysis') { // Get code
       steps {
         // get code from our Git repository
-        git 'https://github.com/brentlaster/roarv2'
+        git 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git'
       }
     }
-    stage('Compile') { // Compile and do unit testing
+    stage('Build') { 
       steps {
         // run Gradle to execute compile and unit testing
         sh 'gradle clean compileJava test'
