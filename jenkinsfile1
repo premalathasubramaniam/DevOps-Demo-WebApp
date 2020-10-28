@@ -9,8 +9,32 @@ pipeline {
     }
     stage('build') {
       steps {
-      sh 'mvn --version'
+      //sh 'mvn --version'
       }
-    }    
+    }
+    stage('UI Test') {
+      steps {
+      }
+    }
+    stage('Performance Test') {
+      steps {
+      }
+    }
+    stage('Deploy To QA') {
+      steps {
+      }
+    }
+    stage('Store Artifact') {
+      steps {
+      }
+    }
+    stage('Deploy To Prod') {
+      steps {
+      }
+    }
+    stage('Sanity Test') {
+      steps {
+      }
+    }
   }
 }
