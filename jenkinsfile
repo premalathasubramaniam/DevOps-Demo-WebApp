@@ -7,11 +7,6 @@ pipeline {
         git 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git'
       }
     }
-    stage('Build') { 
-      steps {
-        // run Gradle to execute compile and unit testing
-        sh 'gradle clean compileJava test'
-      }
-    }
+    
   }
 }
