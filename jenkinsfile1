@@ -1,5 +1,9 @@
 pipeline {
   agent any
+  tools {
+        maven 'mavenHome'
+        jdk 'JavaHome'
+   }
   stages {
     stage('Static Code Analysis') { // Get code
       steps {
@@ -9,13 +13,15 @@ pipeline {
     }
     stage('build') {
       steps {
-      //sh 'mvn --version'
       git 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git'
+      echo 'maven clean'
+      bat ' mvn -f DevOps-Demo-WebApp/pom.xml clean install'
       }
     }
     stage('UI Test') {
       steps {
       git 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git'
+      sh 
       }
     }
     stage('Performance Test') {
