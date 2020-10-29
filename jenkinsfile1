@@ -1,8 +1,8 @@
 pipeline {
   agent any
   tools {
-        maven 'mavenHome'
-        jdk 'JavaHome'
+        maven 'maven'
+        jdk 'Java'
    }
   stages {
     stage('Static Code Analysis') { // Get code
