@@ -1,9 +1,5 @@
 pipeline {
   agent any
-  tools {
-        maven 'maven'
-        jdk 'Java'
-   }
   stages {
     stage('Static Code Analysis') { // Get code
       steps {
@@ -11,11 +7,14 @@ pipeline {
         git 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git'
       }
     }
+    
     stage('build') {
       steps {
       git 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git'
-      echo 'maven clean'
-      bat ' mvn -f DevOps-Demo-WebApp/pom.xml clean install'
+      //echo 'maven clean'
+      //bat 'mvn -f DevOps-Demo-WebApp/pom.xml clean install'
+       deleteDir()
+        checkout scm
       }
     }
     stage('UI Test') {
