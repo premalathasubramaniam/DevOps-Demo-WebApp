@@ -21,7 +21,7 @@ pipeline {
     stage('UI Test') {
       steps {
       git 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git'
-      sh 
+       
       }
     }
     stage('Performance Test') {
