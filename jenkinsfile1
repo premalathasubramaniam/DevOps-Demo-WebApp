@@ -11,11 +11,8 @@ pipeline {
     stage('build') {
       steps {
       git 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git'
-      //echo 'maven clean'
-      //bat 'mvn -f DevOps-Demo-WebApp/pom.xml clean install'
-       deleteDir()
-        checkout scm
-      }
+      echo 'maven clean'
+      bat 'mvn -f DevOps-Demo-WebApp/pom.xml clean install'
     }
     stage('UI Test') {
       steps {
