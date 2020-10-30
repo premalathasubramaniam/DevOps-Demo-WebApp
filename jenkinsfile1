@@ -44,16 +44,16 @@ pipeline {
           {
             "pattern": "**/target/*.jar",
             "target": "libs-snapshot-local"
-          }, {
+          }, 
+          {
             "pattern": "**/target/*.pom",
             "target": "libs-snapshot-local"
           }, 
           {
             "pattern": "**/target/*.war",
             "target": "libs-snapshot-local"
-          }
-        ]
-      }
+          }]
+        }
       // Upload to Artifactory.
       server.upload spec: uploadSpec, buildInfo: buildInfo
       buildInfo.retention maxBuilds: 10, maxDays: 7, deleteBuildArtifacts: true
