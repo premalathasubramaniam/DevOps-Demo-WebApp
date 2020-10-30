@@ -60,6 +60,8 @@ pipeline {
       // Publish build info.
       server.publishBuildInfo buildInfo
     }
+    }
+    }
     
     stage('Deploy To Prod') {
       steps {
