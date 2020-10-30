@@ -36,6 +36,7 @@ pipeline {
     stage('Store Artifact') {
       steps {
       git 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git'
+      }
     }
     
     stage('Deploy To Prod') {
@@ -49,5 +50,4 @@ pipeline {
       }
     }
   }
-}
 }
