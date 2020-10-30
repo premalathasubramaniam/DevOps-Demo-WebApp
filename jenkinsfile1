@@ -1,12 +1,14 @@
 pipeline {
   agent any
   stages {
-    stage('Static Code Analysis') { // Get code
-      steps {
-        // get code from our Git repository
-        git 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git'
-      }
-    }
+  stage('Checkout') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], 
+                doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], 
+                userRemoteConfigs: [[credentialsId: 'jenkins', 
+                url: 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git']]])
+            }
+        }
     
     stage('Build') {
       steps {
