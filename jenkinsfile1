@@ -1,8 +1,11 @@
 def readpom;
 node {
   stage('Checkout') {
-        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'jenkins', url: 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git']]])
-  }    
+        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git']]])        
+  } 
+  stage('Static code Analysis'){
+  echo "Static code Ananlysis"
+  }  
   stage('Build') {
       readpom = readMavenPom file: '';
       def artifactversion = readpom.version;
