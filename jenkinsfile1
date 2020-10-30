@@ -1,7 +1,7 @@
 pipeline {
   agent any
   environment {
-    PATH = "/opt/Maven3.6.3:$PATH"
+    PATH = "/opt/apache-maven-3.6.3/bin/:$PATH"
   }
   stages {
     stage('Checkout') {
@@ -11,9 +11,7 @@ pipeline {
       }
     stage('Build') {
       steps{
-      def mvnHome = tool name: 'maven-3', type: 'maven'
-      bat "${mvnHome}/bin/mvn package"
-          //sh "mvn clean install"
+          sh "mvn clean install"
         }
       }
   }  
