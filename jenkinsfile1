@@ -1,4 +1,4 @@
-def readpom,
+def readpom;
 pipeline {
   agent any
   stages {
