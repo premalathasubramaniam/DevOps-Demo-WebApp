@@ -14,5 +14,11 @@ pipeline {
           sh "mvn clean install"
         }
       }
+    stage('Deploy To QA') {
+      steps{
+          scp webapp/target/webapp.war ecs-user@<ip address of tomcat server>:
+          scp <scr_file> username@IP:<
+        }
+      }
   }  
 }
