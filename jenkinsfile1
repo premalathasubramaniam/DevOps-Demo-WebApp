@@ -1,15 +1,15 @@
-def readpom;
-node {
-  stage('Checkout') {
-        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git']]])        
-  } 
-  stage('Static code Analysis'){
-  echo "Static code Ananlysis"
+pipeline {
+  agent any
+  stages {
+    stage('Checkout') {
+      steps{
+          checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git']]])        
+        }
+      }
+    stage('Build') {
+      steps{
+          sh "mvn clean install"
+        }
+      }
   }  
-  stage('Build') {
-      readpom = readMavenPom file: '';
-      def artifactversion = readpom.version;
-      echo "The version of an artifact is ${artifactversion}"
-      //bat 'mvn -f DevOps-Demo-WebApp/pom.xml clean install
-  }
 }
