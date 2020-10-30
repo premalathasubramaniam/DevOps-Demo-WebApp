@@ -1,6 +1,5 @@
 def readpom;
-pipeline {
-  agent any
+node {
   stages {
   stage('Checkout') {
             steps {
@@ -17,40 +16,6 @@ pipeline {
       dev artifactversion = readpom.version;
       echo "The version of an artifact is ${artifactversion}"
       //bat 'mvn -f DevOps-Demo-WebApp/pom.xml clean install'
-      }
-    }
-    
-    stage('UI Test') {
-      steps {
-      git 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git'       
-      }
-    }
-    
-    stage('Performance Test') {
-      steps {
-      git 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git'
-      }
-    }
-    stage('Deploy To QA') {
-      steps {
-      git 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git'
-      }
-    }
-    
-    stage('Store Artifact') {
-      steps {
-      git 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git'
-      }
-    }
-    
-    stage('Deploy To Prod') {
-      steps {
-      git 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git'
-      }
-    }
-    stage('Sanity Test') {
-      steps {
-      git 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git'
       }
     }
   }
