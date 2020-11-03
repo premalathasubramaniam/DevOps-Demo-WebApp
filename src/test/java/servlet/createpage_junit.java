@@ -32,14 +32,15 @@ public class createpage_junit {
 		
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		
-		MockHttpServletResponse response = new MockHttpServletResponse(); response.setContentType("text/html");
+		//MockHttpServletResponse response = new MockHttpServletResponse(); response.setContentType("text/html");
+		MockHttpServletResponse response = new MockHttpServletResponse(); response.setContentType("text/html;charset=UTF-8");
 		 request.addParameter("product", "BROADBAND");
 		 request.addParameter("problemdescription", "ADDITIONAL CONNECTION");
 		 request.addParameter("contact", "739222687");
 		 request.addParameter("date", "13/04/2017");
 		 request.addParameter("status", "NEW");
 		
-		//obj.doPost(request, response);
+		obj.doPost(request, response);
 		
 	}
 	
