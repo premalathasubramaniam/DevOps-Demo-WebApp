@@ -39,7 +39,7 @@ public class createpage_junit {
 		 request.addParameter("date", "13/04/2017");
 		 request.addParameter("status", "NEW");
 		
-		obj.doPost(request, response);
+		//obj.doPost(request, response);
 		
 	}
 	
