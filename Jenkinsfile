@@ -20,20 +20,26 @@ pipeline {
             steps {
                 sh 'mvn clean install'
             }
-             post {
-                 always {
+            post {
+                always {
                      jiraSendBuildInfo branch: 'https://tcs-devops-case-study.atlassian.net/browse/DC-1', site: 'tcs-devops-case-study.atlassian.net'
-                 }
+                }
             }
         }
         stage ('JiraNotification') {
             steps {
-                jiraComment body: 'Build is Success', issueKey: 'DC-1'
+                jiraComment body: 'Build is Successful', issueKey: 'DC-1'
             }
         }
         stage ('DeployTest') {
             steps {
                 deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://35.192.223.169:8080')], contextPath: 'QAWebapp', war: '**/*.war'
+            }
+            post {
+                always {
+                    jiraSendDeploymentInfo environmentId: 'Test', environmentName: 'test', environmentType: 'test', serviceIds: ['http://35.192.223.169:8080/QAWebapp'], site: 'tcs-devops-case-study.atlassian.net', state: 'successful'
+                    jiraComment body: 'Test Deployment Successful', issueKey: 'DC-1'
+                }
             }
         }
         stage ('SonarBuild') {
@@ -67,7 +73,7 @@ pipeline {
                     buildNumber: '50')
             }
         }
-        stage ('Testbuild') {
+        stage ('QATestBuild') {
             steps {
                 sh 'mvn test -f functionaltest/pom.xml'
             }
@@ -84,10 +90,16 @@ pipeline {
         }
         stage ('DeployToProd') {
             steps {
-                deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://35.192.223.169:8080')], contextPath: 'ProdWebapp', war: '**/*.war'
+                deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://34.122.114.228:8080')], contextPath: 'ProdWebapp', war: '**/*.war'
+            }
+            post {
+                always {
+                    jiraSendDeploymentInfo environmentId: 'Prod', environmentName: 'prod', environmentType: 'production', serviceIds: ['http://34.122.114.228:8080/ProdWebapp'], site: 'tcs-devops-case-study.atlassian.net', state: 'successful'
+                    jiraComment body: 'Deployment successful', issueKey: 'DC-1'
+                }
             }
         }
-        stage ('ProdBuild') {
+        stage ('ProdTestBuild') {
             steps {
                 sh 'mvn clean install -f Acceptancetest/pom.xml'
             }
