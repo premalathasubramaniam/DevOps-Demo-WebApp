@@ -39,7 +39,7 @@ pipeline {
                 }
             }
         }
-        tage ('Artifactory') {            
+        stage ('Artifactory') {            
             steps {                
                 rtServer (
                         id: 'artifactory',
