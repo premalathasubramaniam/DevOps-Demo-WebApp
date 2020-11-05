@@ -51,11 +51,11 @@ pipeline {
                  rtUpload (
                     serverId: 'artifactory',
                         spec: '''{
-                        "files": [{"pattern": "**/*.war", "target": "devops-casestudy/WEBPOC/AVNCommunication/1.0/" }] }''',
+                        "files": [{"pattern": "**/*.war", "target": "devops-casestudy/" }] }''',
                     buildName: 'devops-casestudy',
                     buildNumber: '50')
             }
-        }
+        }        
         stage ('UnitTest') {
             steps {
                 sh 'mvn test -f functionaltest/pom.xml'
