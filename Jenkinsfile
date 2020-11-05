@@ -74,11 +74,11 @@ pipeline {
         }
         stage ('DeployToProd') {
             steps {
-                deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://13.68.186.95:8080')], contextPath: 'ProdWebapp', war: '**/*.war'
+                deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://52.150.20.154:8080')], contextPath: 'ProdWebapp', war: '**/*.war'
             }
             post {
                 always {
-                    jiraSendDeploymentInfo environmentId: 'Prod', environmentName: 'prod', environmentType: 'production', serviceIds: ['http://13.68.186.95:8080/ProdWebapp'], site: 'tcs-devops-case-study.atlassian.net', state: 'successful'
+                    jiraSendDeploymentInfo environmentId: 'Prod', environmentName: 'prod', environmentType: 'production', serviceIds: ['http://52.150.20.154:8080/ProdWebapp'], site: 'tcs-devops-case-study.atlassian.net', state: 'successful'
                     jiraComment body: 'Deployment successful ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)', issueKey: 'DC-1'
                     slackSend channel: 'alerts', message: "Deploy To Prod Successful ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)", teamDomain: 'friends-dover', tokenCredentialId: 'slack-alert'
                 }
