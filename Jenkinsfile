@@ -11,7 +11,7 @@ pipeline {
         }
         stage ('StaticCodeAnalysis') {
             steps {
-                    withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonar') {
+                    withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonarqube') {
                     sh 'mvn sonar:sonar -D sonar.login=admin -D sonar.password=admin'
                 }
             }
