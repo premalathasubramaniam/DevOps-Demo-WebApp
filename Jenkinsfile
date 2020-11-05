@@ -39,23 +39,23 @@ pipeline {
                 }
             }
         }
-        stage ('Artifactory') {
-            steps {
+        tage ('Artifactory') {            
+            steps {                
                 rtServer (
-                    id: 'artifactory',
-                    url: 'https://tcsdevops10.jfrog.io/artifactory',
-                    username: 'deploy',
-                    password: 'Pappu$1990',
-                    bypassProxy: true,
-                     timeout: 300)
-                 rtUpload (
-                    serverId: 'artifactory',
-                        spec: '''{
-                        "files": [{"pattern": "**/*.war", "target": "devops-casestudy/WEBPOC/AVNCommunication/1.0/" }] }''',
-                    buildName: 'devops-casestudy',
-                    buildNumber: '50')
+                        id: 'artifactory',
+                        url: 'https://devopsscriptedpipeline.jfrog.io/artifactory',
+                        username: 'jenkins',
+                        password: 'Sai@feb2202',
+                        bypassProxy: true,
+                        timeout: 300
+                )                
+                rtUpload (
+                serverId: 'artifactory',
+                spec: '''{ "files": [{"pattern": "**/*.war", "target": "jenkins/WEBPOC/AVNCommunication/1.0/"}]}''',
+                    buildName: 'descriptivepipeline1',
+                    buildNumber: '50')               
             }
-        }        
+        }         
         stage ('UnitTest') {
             steps {
                 sh 'mvn test -f functionaltest/pom.xml'
