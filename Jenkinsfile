@@ -1,17 +1,17 @@
 pipeline {
     agent any
     tools {
-        maven 'Maven3'
+        maven 'Maven3.6.3'
     }
     stages {
         stage ('Checkout'){
             steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/chenchu84/DevOps-Demo-WebApp.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git']]])
             }
         }
         stage ('StaticCodeAnalysis') {
             steps {
-                    withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonarqube') {
+                    withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonar') {
                     sh 'mvn sonar:sonar -D sonar.login=admin -D sonar.password=admin'
                 }
             }
@@ -23,19 +23,19 @@ pipeline {
             post {
                 always {
                      jiraSendBuildInfo branch: 'https://tcs-devops-case-study.atlassian.net/browse/DC-1', site: 'tcs-devops-case-study.atlassian.net'
-                    jiraComment body: 'Build is Successful', issueKey: 'DC-1'
+                    jiraComment body: 'Build is Successful ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)', issueKey: 'DC-1'
                 }
             }
         }
         stage ('DeployTest') {
             steps {
-                deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://35.192.223.169:8080')], contextPath: 'QAWebapp', war: '**/*.war'
+                deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://13.68.186.95:8080')], contextPath: 'QAWebapp', war: '**/*.war'
             }
             post {
                 always {
-                    jiraSendDeploymentInfo environmentId: 'Test', environmentName: 'test', environmentType: 'test', serviceIds: ['http://35.192.223.169:8080/QAWebapp'], site: 'tcs-devops-case-study.atlassian.net', state: 'successful'
-                    jiraComment body: 'Test Deployment Successful', issueKey: 'DC-1'
-                    slackSend channel: 'alerts', message: 'Test Deployment Success', teamDomain: 'friends-dover', tokenCredentialId: 'SlackNotifications'
+                    jiraSendDeploymentInfo environmentId: 'Test', environmentName: 'test', environmentType: 'test', serviceIds: ['http://13.68.186.95:8080/QAWebapp'], site: 'tcs-devops-case-study.atlassian.net', state: 'successful'
+                    jiraComment body: 'Test Deployment Successful ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)', issueKey: 'DC-1'
+                    slackSend channel: 'alerts', message: "Deploy To Test Successful ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)", teamDomain: 'friends-dover', tokenCredentialId: 'slack-alert'
                 }
             }
         }
@@ -48,16 +48,16 @@ pipeline {
             steps {
                 rtServer (
                     id: 'artifactory',
-                    url: 'https://devopsscriptedpipeline.jfrog.io/artifactory',
-                    username: 'jenkins',
-                    password: 'jenkins',
+                    url: 'https://tcsdevops10.jfrog.io/artifactory',
+                    username: 'deploy',
+                    password: 'Pappu$1990',
                     bypassProxy: true,
                      timeout: 300)
                  rtUpload (
                     serverId: 'artifactory',
                         spec: '''{
-                        "files": [{"pattern": "**/*.war", "target": "jenkins/WEBPOC/AVNCommunication/1.0/" }] }''',
-                    buildName: 'descriptivepipeline1',
+                        "files": [{"pattern": "**/*.war", "target": "deploy/WEBPOC/AVNCommunication/1.0/" }] }''',
+                    buildName: 'devops-casestudy',
                     buildNumber: '50')
             }
         }
@@ -69,18 +69,18 @@ pipeline {
         }
         stage('PerformanceTest'){
             steps{
-                blazeMeterTest credentialsId: 'BlazeMeter', testId: '8656444.taurus', workspaceId: '683047'
+                blazeMeterTest credentialsId: 'blazemeter', testId: '8666515.taurus', workspaceId: '685131'
             }
         }
         stage ('DeployToProd') {
             steps {
-                deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://34.122.114.228:8080')], contextPath: 'ProdWebapp', war: '**/*.war'
+                deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://13.68.186.95:8080')], contextPath: 'ProdWebapp', war: '**/*.war'
             }
             post {
                 always {
-                    jiraSendDeploymentInfo environmentId: 'Prod', environmentName: 'prod', environmentType: 'production', serviceIds: ['http://34.122.114.228:8080/ProdWebapp'], site: 'tcs-devops-case-study.atlassian.net', state: 'successful'
-                    jiraComment body: 'Deployment successful', issueKey: 'DC-1'
-                    slackSend channel: 'alerts', message: 'Prod Deployment Successful', teamDomain: 'friends-dover', tokenCredentialId: 'SlackNotifications'
+                    jiraSendDeploymentInfo environmentId: 'Prod', environmentName: 'prod', environmentType: 'production', serviceIds: ['http://13.68.186.95:8080/ProdWebapp'], site: 'tcs-devops-case-study.atlassian.net', state: 'successful'
+                    jiraComment body: 'Deployment successful ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)', issueKey: 'DC-1'
+                    slackSend channel: 'alerts', message: "Deploy To Prod Successful ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)", teamDomain: 'friends-dover', tokenCredentialId: 'slack-alert'
                 }
             }
         }
