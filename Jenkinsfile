@@ -39,11 +39,6 @@ pipeline {
                 }
             }
         }
-        stage ('SonarBuild') {
-            steps {
-                sh 'mvn package'
-            }
-        }
         stage ('Artifactory') {
             steps {
                 rtServer (
