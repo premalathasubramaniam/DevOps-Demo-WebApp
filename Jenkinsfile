@@ -23,12 +23,8 @@ pipeline {
             post {
                 always {
                      jiraSendBuildInfo branch: 'https://tcs-devops-case-study.atlassian.net/browse/DC-1', site: 'tcs-devops-case-study.atlassian.net'
+                    jiraComment body: 'Build is Successful', issueKey: 'DC-1'
                 }
-            }
-        }
-        stage ('JiraNotification') {
-            steps {
-                jiraComment body: 'Build is Successful', issueKey: 'DC-1'
             }
         }
         stage ('DeployTest') {
@@ -111,7 +107,7 @@ pipeline {
         }
         stage ('SlackNotificationProd') {
             steps {
-                slackSend channel: 'alerts', message: 'Prod Deployment Success', teamDomain: 'friends-dover', tokenCredentialId: 'SlackNotifications'
+                slackSend channel: 'alerts', message: 'Prod Deployment Successful', teamDomain: 'friends-dover', tokenCredentialId: 'SlackNotifications'
             }
         }
     }
