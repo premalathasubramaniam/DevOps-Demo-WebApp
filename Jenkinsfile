@@ -35,6 +35,7 @@ pipeline {
                 always {
                     jiraSendDeploymentInfo environmentId: 'Test', environmentName: 'test', environmentType: 'test', serviceIds: ['http://35.192.223.169:8080/QAWebapp'], site: 'tcs-devops-case-study.atlassian.net', state: 'successful'
                     jiraComment body: 'Test Deployment Successful', issueKey: 'DC-1'
+                    slackSend channel: 'alerts', message: 'Test Deployment Success', teamDomain: 'friends-dover', tokenCredentialId: 'SlackNotifications'
                 }
             }
         }
@@ -42,11 +43,6 @@ pipeline {
             steps {
                 sh 'mvn package'
             }
-        }
-        stage ('SlackNotificationBuild') {
-           steps {
-                slackSend channel: 'alerts', message: 'Test Deployment Success', teamDomain: 'friends-dover', tokenCredentialId: 'SlackNotifications'
-           }
         }
         stage ('jFrogserver') {
             steps {
@@ -69,13 +65,9 @@ pipeline {
                     buildNumber: '50')
             }
         }
-        stage ('QATestBuild') {
+        stage ('UnitTest') {
             steps {
                 sh 'mvn test -f functionaltest/pom.xml'
-            }
-        }
-        stage('UnitTest'){
-            steps{
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
             }
         }
@@ -92,22 +84,14 @@ pipeline {
                 always {
                     jiraSendDeploymentInfo environmentId: 'Prod', environmentName: 'prod', environmentType: 'production', serviceIds: ['http://34.122.114.228:8080/ProdWebapp'], site: 'tcs-devops-case-study.atlassian.net', state: 'successful'
                     jiraComment body: 'Deployment successful', issueKey: 'DC-1'
+                    slackSend channel: 'alerts', message: 'Prod Deployment Successful', teamDomain: 'friends-dover', tokenCredentialId: 'SlackNotifications'
                 }
             }
         }
-        stage ('ProdTestBuild') {
+        stage ('SanityTest') {
             steps {
                 sh 'mvn clean install -f Acceptancetest/pom.xml'
-            }
-        }
-        stage('SanityTest'){
-            steps{
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\Acceptancetest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
-            }
-        }
-        stage ('SlackNotificationProd') {
-            steps {
-                slackSend channel: 'alerts', message: 'Prod Deployment Successful', teamDomain: 'friends-dover', tokenCredentialId: 'SlackNotifications'
             }
         }
     }
