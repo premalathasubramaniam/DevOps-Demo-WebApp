@@ -12,6 +12,8 @@
     <sonar.language>java</sonar.language>
     <sonar.login>admin</sonar.login>
     <sonar.password>password</sonar.password>
+    <sonar.inclusions>"**/test/java/servlet/createpage_junit.java, ..."</sonar.inclusions>
+    <sonar.test.exclusions>"**/test/java/servlet/createpage_junit.java, ..."</sonar.test.exclusions>
   </properties>
 	
 	<dependencies>
