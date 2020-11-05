@@ -44,7 +44,7 @@ pipeline {
                 sh 'mvn package'
             }
         }
-        stage ('jFrogserver') {
+        stage ('Artifactory') {
             steps {
                 rtServer (
                     id: 'artifactory',
@@ -53,11 +53,7 @@ pipeline {
                     password: 'jenkins',
                     bypassProxy: true,
                      timeout: 300)
-            }
-        }
-        stage ('jFrogserverupload') {
-            steps {
-                rtUpload (
+                 rtUpload (
                     serverId: 'artifactory',
                         spec: '''{
                         "files": [{"pattern": "**/*.war", "target": "jenkins/WEBPOC/AVNCommunication/1.0/" }] }''',
