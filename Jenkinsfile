@@ -56,7 +56,7 @@ pipeline {
                  rtUpload (
                     serverId: 'artifactory',
                         spec: '''{
-                        "files": [{"pattern": "**/*.war", "target": "deploy/WEBPOC/AVNCommunication/1.0/" }] }''',
+                        "files": [{"pattern": "**/*.war", "target": "devops-casestudy/WEBPOC/AVNCommunication/1.0/" }] }''',
                     buildName: 'devops-casestudy',
                     buildNumber: '50')
             }
