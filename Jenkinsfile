@@ -76,7 +76,7 @@ pipeline {
                 always {
                     jiraSendDeploymentInfo environmentId: 'Prod', environmentName: 'prod', environmentType: 'production', serviceIds: ['http://34.121.139.252:8080/ProdWebapp'], site: 'tcs-devops-case-study.atlassian.net', state: 'successful'
                     jiraComment body: 'Deployment Successful', issueKey: 'DC-1'
-                    slackSend channel: 'alerts', message: "Deploy To Prod Successful ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)", teamDomain: 'friends-dover', tokenCredentialId: 'slack-alert'
+                    slackSend channel: 'alerts', message: "Deploy To Production Successful ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)", teamDomain: 'friends-dover', tokenCredentialId: 'slack-alert'
                 }
             }
         }
