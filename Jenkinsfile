@@ -57,18 +57,18 @@ pipeline {
                     buildNumber: '50')               
             }
         }         
-        stage ('UnitTest') {
+        stage ('Unit Test') {
             steps {
                 sh 'mvn test -f functionaltest/pom.xml'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'Unit Test Report', reportTitles: ''])
             }
         }
-        stage('PerformanceTest'){
+        stage('Performance Test'){
             steps{
                 blazeMeterTest credentialsId: 'blazemeter', testId: '8666515.taurus', workspaceId: '685131'
             }
         }
-        stage ('DeployToProd') {
+        stage ('Deploy To Prod') {
             steps {
                 deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://34.68.98.38:8080')], contextPath: 'ProdWebapp', war: '**/*.war'
             }
@@ -80,7 +80,7 @@ pipeline {
                 }
             }
         }
-        stage ('SanityTest') {
+        stage ('Sanity Test') {
             steps {
                 sh 'mvn clean install -f Acceptancetest/pom.xml'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\Acceptancetest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
