@@ -24,7 +24,7 @@ pipeline {
                 always {
                      jiraSendBuildInfo branch: 'https://tcs-devops-case-study.atlassian.net/browse/DC-1', site: 'tcs-devops-case-study.atlassian.net'
                      jiraComment body: 'Build is Successful', issueKey: 'DC-1'
-                     slackSend channel: 'alerts', message: "Build is Successful ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)", teamDomain: 'friends-dover', tokenCredentialId: 'slack-alert'
+                     slackSend channel: 'alerts', color: 'Green', message: "Build is Successful ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)", teamDomain: 'friends-dover', tokenCredentialId: 'slack-alert'
                 }
             }
         }
@@ -37,6 +37,7 @@ pipeline {
                     jiraSendDeploymentInfo environmentId: 'Test', environmentName: 'test', environmentType: 'test', serviceIds: ['http://13.68.186.95:8080/QAWebapp'], site: 'tcs-devops-case-study.atlassian.net', state: 'successful'
                     jiraComment body: 'Test Deployment Successful', issueKey: 'DC-1'
                     slackSend channel: 'alerts', message: "Deploy To Test Successful ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)", teamDomain: 'friends-dover', tokenCredentialId: 'slack-alert'
+                    slackSend channel: 'alerts', color: 'Green', failOnError: true, message: 'Deploy To Test Successful ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)', teamDomain: 'friends-dover', tokenCredentialId: 'slack-alert'
                 }
             }
         }
