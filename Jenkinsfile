@@ -84,6 +84,7 @@ pipeline {
             steps {
                 sh 'mvn clean install -f Acceptancetest/pom.xml'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\Acceptancetest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
+                slackSend channel: 'alerts', message: "Sanity Test Successful ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)", teamDomain: 'friends-dover', tokenCredentialId: 'slack-alert'
             }
         }
     }
