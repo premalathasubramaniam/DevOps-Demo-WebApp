@@ -9,7 +9,7 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/premalathasubramaniam/DevOps-Demo-WebApp.git']]])
             }
         }
-        stage ('StaticCodeAnalysis') {
+        stage ('Static Code Analysis') {
             steps {
                     withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonarqube') {
                     sh 'mvn sonar:sonar -D sonar.login=admin -D sonar.password=admin'
